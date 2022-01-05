@@ -17,7 +17,7 @@ import {
     Link, useMatch,
 } from "react-router-dom";
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Products'];
 const settings = ['Cart', 'Account'];
 
 const ResponsiveAppBar = ({ token, setToken }) => {

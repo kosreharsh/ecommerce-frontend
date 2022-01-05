@@ -33,26 +33,32 @@ function Login({ setToken }) {
 
     }
     return (
-        <div style={formStyle} >
-            <Typography variant='h6'>Login Form</Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>
-                    <p>Username</p>
-                    <input type="text" {...register("username")} />
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input type="password" {...register("password")} />
-                </label>
-                <button type='submit'>Submit</button>
+        <div style={divStyle} >
+            <Typography sx={{ mt: 4, mb: 2 }} variant='h6'>Login Form</Typography>
+            <form style={{ ...formStyle, 'width': 400 }} onSubmit={handleSubmit(onSubmit)}>
+                <input style={inputStyle} type="text" placeholder='Username' {...register('username')} />
+                <input style={inputStyle} type="password" placeholder='Password' {...register('password')} />
+                <button style={inputStyle} type='submit'>Submit</button>
             </form>
         </div>
     )
 }
-const formStyle = {
+var formStyle = {
     'display': 'flex',
     'flexDirection': 'column',
-    'alignItems': 'center'
+}
+const divStyle = {
+    'display': 'flex',
+    'flexDirection': 'column',
+    'alignItems': 'center',
+
+}
+
+const inputStyle = {
+    'marginTop': 5,
+    'marginRight': 7,
+    'padding': 6,
+    'height': 35
 }
 
 export default Login

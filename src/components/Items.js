@@ -13,14 +13,10 @@ const fetchItems = async () => {
 
 
 function Items() {
-
-
     const { data, isLoading, isError } = useQuery('getItems', fetchItems, {
         refetchOnWindowFocus: false,
         cacheTime: 3000
     })
-
-
 
     if (isLoading) {
         return <span>Loading...</span>
@@ -31,9 +27,6 @@ function Items() {
     }
 
     return (
-
-
-
         <Container maxWidth='md' sx={{ mt: 2 }}>
             <Grid container spacing={{ xs: 2, md: 2, t: 5 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {data.map((item, index) => (
@@ -44,12 +37,6 @@ function Items() {
 
             </Grid>
         </Container>
-
-
-
-
-
-
     )
 }
 

@@ -1,5 +1,9 @@
-import { useState } from 'react'
+
 import Typography from '@mui/material/Typography';
+import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import history from 'history/browser'
+import Container from '@mui/material/Container'
 
 async function SignupUser(credentials) {
     return fetch('http://localhost:8000/api-token-auth/', {
@@ -12,40 +16,53 @@ async function SignupUser(credentials) {
         .then(data => data.json())
 }
 function Signup({ setToken }) {
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState()
-    const [password2, setPassword2] = useState()
-    const handleSubmit = async e => {
-        e.preventDefault();
-        const token = await SignupUser({ username, password, password2 })
-        setToken(token)
-        console.log(token)
+    const { register, handleSubmit } = useForm()
+    const Mutation = useMutation(SignupUser, {
+        onSuccess: (data) => {
+            setToken(data)
+            console.log(data?.token)
+            history.push('/')
+        }
+    })
+    const onSubmit = async data => {
+        Mutation.mutate(data)
     }
     return (
-        <div style={formStyle} >
-            <Typography variant='h6'>SignUp Form</Typography>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <p>Username</p>
-                    <input type="text" onChange={e => setUsername(e.target.value)} />
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input type="password" onChange={e => setPassword(e.target.value)} />
-                </label>
-                <label>
-                    <p>Confirm Password</p>
-                    <input type="password" onChange={e => setPassword2(e.target.value)} />
-                </label>
-                <button type='submit'>Submit</button>
-            </form>
-        </div>
+        <Container>
+            <div style={divStyle} >
+                <div style={{ ...formStyle, 'marginTop': 10 }}>
+                    <Typography variant='h6' textAlign='center'>SignUp Form</Typography>
+                    <form style={{ ...formStyle, 'width': 400, 'margin': 10 }} onSubmit={handleSubmit(onSubmit)}>
+
+                        <input style={inputStyle} type="text" placeholder='Username' {...register('username')} />
+
+
+                        <input style={inputStyle} type="password" placeholder='Password' {...register('password')} />
+
+                        <input style={inputStyle} type="password" placeholder='Confirm Password' {...register('password2')} />
+
+                        <button style={inputStyle} type='submit'>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </Container >
     )
 }
-const formStyle = {
+var formStyle = {
     'display': 'flex',
     'flexDirection': 'column',
-    'alignItems': 'center'
+}
+var divStyle = {
+    'display': 'flex',
+    'justifyContent': 'center',
+    'width': 950
+
+}
+const inputStyle = {
+    'marginTop': 5,
+    'marginRight': 7,
+    'padding': 6,
+    'height': 35
 }
 
 export default Signup
